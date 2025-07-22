@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoWise 3.0 - Award-Winning AI Carbon Optimizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- 3D and Libraries - CORRECTED PATHS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    
+    <!-- AR.js for WebAR (Optional - Remove if causing issues) -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+</head>
+<body>
+    <!-- Loading Screen with 3D Animation -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-3d-container">
+            <div class="loading-earth"></div>
+            <div class="loading-text">
+                <h2>Initializing EcoWise 3.0</h2>
+                <div class="loading-progress">
+                    <div class="loading-bar"></div>
+                </div>
+                <p id="loadingStatus">Loading AI Models...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Navigation with 3D Effects -->
+    <nav class="navbar glass-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-3d">
+                    <i class="fas fa-leaf"></i>
+                    <div class="logo-particles"></div>
+                </div>
+                <span class="logo-text">EcoWise 3.0</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active" data-section="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                    <div class="nav-indicator"></div>
+                </a>
+                <a href="#calculator" class="nav-link" data-section="calculator">
+                    <i class="fas fa-calculator"></i>
+                    <span>AI Calculator</span>
+                    <div class="nav-indicator"></div>
+                </a>
+                <a href="#ar-scanner" class="nav-link" data-section="ar-scanner">
+                    <i class="fas fa-camera"></i>
+                    <span>AR Scanner</span>
+                    <div class="nav-indicator"></div>
+                </a>
+                <a href="#eco-city" class="nav-link" data-section="eco-city">
+                    <i class="fas fa-city"></i>
+                    <span>Eco City</span>
+                    <div class="nav-indicator"></div>
+                </a>
+                <a href="#ai-coach" class="nav-link" data-section="ai-coach">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Coach</span>
+                    <div class="nav-indicator"></div>
+                </a>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="eco-score">
+                    <span class="score">850</span>
+                    <span class="label">EcoScore</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Enhanced Hero Section with 3D Earth -->
+    <section id="home" class="hero-3d">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-award"></i>
+                    <span>Award-Winning AI Platform</span>
+                </div>
+                <h1 class="hero-title">
+                    Transform Your Impact with 
+                    <span class="gradient-text-3d">Revolutionary AI</span>
+                </h1>
+                <p class="hero-subtitle">Experience the world's most advanced carbon footprint optimizer with immersive 3D visualization, AR scanning, and predictive AI modeling</p>
+                
+                <div class="hero-stats-3d">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number" data-count="2500000">0</span>
+                            <span class="stat-unit">kg CO₂</span>
+                            <span class="stat-label">Collectively Saved</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number" data-count="50000">0</span>
+                            <span class="stat-unit">+</span>
+                            <span class="stat-label">Global Users</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number" data-count="125000">0</span>
+                            <span class="stat-unit">Trees</span>
+                            <span class="stat-label">Equivalent Saved</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-actions">
+                    <button class="cta-button primary-3d" onclick="startEcoJourney()">
+                        <div class="button-3d-effect"></div>
+                        <i class="fas fa-rocket"></i>
+                        <span>Start Eco Journey</span>
+                    </button>
+                    <button class="cta-button secondary-3d" onclick="watchDemo()">
+                        <div class="button-3d-effect"></div>
+                        <i class="fas fa-play"></i>
+                        <span>Watch Demo</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Revolutionary 3D Earth Visualization -->
+            <div class="hero-3d-visual">
+                <div id="earth3d" class="earth-3d-container"></div>
+                <div class="earth-info-panel">
+                    <div class="info-item">
+                        <span class="info-label">Real-time CO₂</span>
+                        <span class="info-value" id="realTimeCO2">418.2 ppm</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Temperature Rise</span>
+                        <span class="info-value" id="tempRise">+1.2°C</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sea Level</span>
+                        <span class="info-value" id="seaLevel">+21.6 cm</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating 3D Particles -->
+        <div class="floating-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </section>
+
+    <!-- AI Calculator with Enhanced 3D Interface -->
+    <section id="calculator" class="calculator-section-3d">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title-3d">AI-Powered Carbon Calculator</h2>
+                <p class="section-subtitle">Advanced machine learning algorithms analyze your lifestyle patterns</p>
+            </div>
+
+            <div class="calculator-3d-container">
+                <!-- Holographic Calculator Interface -->
+                <div class="calculator-hologram">
+                    <div class="hologram-grid">
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                    </div>
+                    
+                    <div class="input-group-3d">
+                        <label class="label-3d">Transportation</label>
+                        <div class="input-container-3d">
+                            <div class="input-icon-3d">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <input type="number" id="transport3d" class="input-3d" placeholder="Monthly km">
+                            <div class="input-glow"></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group-3d">
+                        <label class="label-3d">Energy Consumption</label>
+                        <div class="input-container-3d">
+                            <div class="input-icon-3d">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <input type="number" id="energy3d" class="input-3d" placeholder="Monthly kWh">
+                            <div class="input-glow"></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group-3d">
+                        <label class="label-3d">Diet Pattern</label>
+                        <div class="input-container-3d">
+                            <div class="input-icon-3d">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <select id="diet3d" class="input-3d">
+                                <option value="meat">Meat Heavy</option>
+                                <option value="balanced">Balanced</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="vegan">Vegan</option>
+                            </select>
+                            <div class="input-glow"></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group-3d">
+                        <label class="label-3d">Waste Generation</label>
+                        <div class="input-container-3d">
+                            <div class="input-icon-3d">
+                                <i class="fas fa-trash"></i>
+                            </div>
+                            <input type="number" id="waste3d" class="input-3d" placeholder="Weekly kg">
+                            <div class="input-glow"></div>
+                        </div>
+                    </div>
+
+                    <button class="calculate-button-3d" onclick="calculateAI()">
+                        <div class="button-hologram"></div>
+                        <i class="fas fa-brain"></i>
+                        <span>Analyze with AI</span>
+                        <div class="button-particles"></div>
+                    </button>
+                </div>
+
+                <!-- 3D Results Visualization -->
+                <div class="results-3d-container" id="results3d" style="display: none;">
+                    <div id="results3dViz" class="results-3d-viz"></div>
+                    <div class="results-panel">
+                        <h3>Your Carbon Footprint</h3>
+                        <div class="footprint-display">
+                            <span id="footprintValue3d">0</span>
+                            <span class="unit">tons CO₂/year</span>
+                        </div>
+                        <div class="ai-analysis" id="aiAnalysis">
+                            <i class="fas fa-robot"></i>
+                            <span>AI is analyzing your patterns...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AR Scanner Feature -->
+    <section id="ar-scanner" class="ar-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title-3d">AR Carbon Scanner</h2>
+                <p class="section-subtitle">Point your camera at any object to see its environmental impact</p>
+            </div>
+
+            <div class="ar-interface">
+                <div class="ar-camera-container">
+                    <video id="cameraFeed" autoplay playsinline></video>
+                    <canvas id="arCanvas"></canvas>
+                    
+                    <!-- AR Overlay UI -->
+                    <div class="ar-overlay">
+                        <div class="ar-crosshair">
+                            <div class="crosshair-center"></div>
+                            <div class="crosshair-ring"></div>
+                        </div>
+                        
+                        <div class="ar-scan-button" onclick="scanObject()">
+                            <div class="scan-pulse"></div>
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        
+                        <div class="ar-info-panel" id="arInfoPanel" style="display: none;">
+                            <div class="info-header">
+                                <h4 id="objectName">Scanning...</h4>
+                                <div class="impact-score" id="impactScore">
+                                    <span class="score">0</span>
+                                    <span class="label">Impact Score</span>
+                                </div>
+                            </div>
+                            <div class="impact-details" id="impactDetails">
+                                <!-- Populated by AR scan -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ar-controls">
+                    <button class="ar-control-btn" onclick="startAR()">
+                        <i class="fas fa-camera"></i>
+                        <span>Start AR</span>
+                    </button>
+                    <button class="ar-control-btn" onclick="captureFrame()">
+                        <i class="fas fa-capture"></i>
+                        <span>Capture</span>
+                    </button>
+                    <button class="ar-control-btn" onclick="toggleFlash()">
+                        <i class="fas fa-flashlight"></i>
+                        <span>Flash</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D Eco City Builder Game -->
+    <section id="eco-city" class="eco-city-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title-3d">Build Your Eco City</h2>
+                <p class="section-subtitle">Create a sustainable city that reflects your real-world eco choices</p>
+            </div>
+
+            <div class="eco-city-interface">
+                <div class="city-3d-container">
+                    <div id="ecoCity3d" class="eco-city-canvas"></div>
+                    
+                    <!-- City Stats Overlay -->
+                    <div class="city-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-users"></i>
+                            <span class="stat-value" id="cityPopulation">1,500</span>
+                            <span class="stat-label">Population</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-leaf"></i>
+                            <span class="stat-value" id="cityGreenScore">78%</span>
+                            <span class="stat-label">Green Score</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-battery-three-quarters"></i>
+                            <span class="stat-value" id="cityEnergy">85%</span>
+                            <span class="stat-label">Renewable</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Building Controls -->
+                <div class="city-controls">
+                    <h4>Available Buildings</h4>
+                    <div class="building-grid">
+                        <div class="building-card" data-type="solar" data-cost="50">
+                            <div class="building-icon">
+                                <i class="fas fa-solar-panel"></i>
+                            </div>
+                            <span>Solar Farm</span>
+                            <span class="cost">50 EcoPoints</span>
+                        </div>
+                        <div class="building-card" data-type="wind" data-cost="75">
+                            <div class="building-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <span>Wind Turbine</span>
+                            <span class="cost">75 EcoPoints</span>
+                        </div>
+                        <div class="building-card" data-type="park" data-cost="30">
+                            <div class="building-icon">
+                                <i class="fas fa-tree"></i>
+                            </div>
+                            <span>Green Park</span>
+                            <span class="cost">30 EcoPoints</span>
+                        </div>
+                        <div class="building-card" data-type="transit" data-cost="100">
+                            <div class="building-icon">
+                                <i class="fas fa-subway"></i>
+                            </div>
+                            <span>Public Transit</span>
+                            <span class="cost">100 EcoPoints</span>
+                        </div>
+                    </div>
+                    
+                    <div class="eco-points">
+                        <i class="fas fa-coins"></i>
+                        <span id="ecoPoints">250</span>
+                        <span>EcoPoints</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Virtual Eco Coach -->
+    <section id="ai-coach" class="ai-coach-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title-3d">Meet Your AI Eco Coach</h2>
+                <p class="section-subtitle">Personalized guidance from your intelligent sustainability companion</p>
+            </div>
+
+            <div class="ai-coach-interface">
+                <!-- 3D Avatar Container -->
+                <div class="avatar-container">
+                    <div id="aiAvatar" class="ai-avatar-3d"></div>
+                    <div class="avatar-status">
+                        <div class="status-indicator active"></div>
+                        <span>EcoBot Online</span>
+                    </div>
+                </div>
+
+                <!-- Chat Interface -->
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <h4>Chat with EcoBot</h4>
+                        <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message ai-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Hello! I'm your AI Eco Coach. I've analyzed your carbon footprint and I'm here to help you reduce it by 30% in the next 3 months. What would you like to start with?</p>
+                                <div class="message-suggestions">
+                                    <button class="suggestion-btn" onclick="askCoach('transport')">Transportation Tips</button>
+                                    <button class="suggestion-btn" onclick="askCoach('energy')">Energy Saving</button>
+                                    <button class="suggestion-btn" onclick="askCoach('diet')">Sustainable Diet</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-container">
+                        <div class="input-wrapper">
+                            <input type="text" id="chatInput" placeholder="Ask me anything about sustainability..." class="chat-input">
+                            <button class="voice-btn" onclick="startVoiceRecognition()">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                            <button class="send-btn" onclick="sendMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Insights Panel -->
+                <div class="insights-panel">
+                    <h4>AI Insights</h4>
+                    <div class="insight-cards">
+                        <div class="insight-card">
+                            <div class="insight-icon">
+                                <i class="fas fa-trend-down"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h5>Quick Win</h5>
+                                <p>Switching to LED lights can save you 0.3t CO₂ annually</p>
+                                <button class="implement-btn">Implement</button>
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-icon">
+                                <i class="fas fa-bicycle"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h5>Transport Optimization</h5>
+                                <p>Cycling 2 days/week reduces emissions by 15%</p>
+                                <button class="implement-btn">Try Challenge</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Climate Impact Simulator -->
+    <section id="climate-simulator" class="simulator-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title-3d">Climate Impact Simulator</h2>
+                <p class="section-subtitle">See how your choices affect the planet's future</p>
+            </div>
+
+            <div class="simulator-interface">
+                <div class="timeline-controls">
+                    <h4>Simulation Timeline</h4>
+                    <div class="timeline-slider">
+                        <input type="range" id="yearSlider" min="2025" max="2050" value="2025" class="year-slider">
+                        <div class="timeline-labels">
+                            <span>2025</span>
+                            <span>2030</span>
+                            <span>2040</span>
+                            <span>2050</span>
+                        </div>
+                    </div>
+                    <div class="current-year">
+                        <span>Year: </span>
+                        <span id="currentSimYear">2025</span>
+                    </div>
+                </div>
+
+                <div class="simulator-3d-container">
+                    <div id="climateSimulator3d" class="climate-sim-canvas"></div>
+                    
+                    <div class="simulation-data">
+                        <div class="data-panel">
+                            <h5>Global Temperature</h5>
+                            <div class="temp-display">
+                                <span id="globalTemp">+1.2°C</span>
+                            </div>
+                        </div>
+                        <div class="data-panel">
+                            <h5>Sea Level Rise</h5>
+                            <div class="sea-level-display">
+                                <span id="seaLevelSim">+21.6cm</span>
+                            </div>
+                        </div>
+                        <div class="data-panel">
+                            <h5>CO₂ Concentration</h5>
+                            <div class="co2-display">
+                                <span id="co2Concentration">418.2 ppm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-controls">
+                    <h4>Test Scenarios</h4>
+                    <div class="scenario-buttons">
+                        <button class="scenario-btn active" data-scenario="current">Current Path</button>
+                        <button class="scenario-btn" data-scenario="optimistic">With Your Actions</button>
+                        <button class="scenario-btn" data-scenario="global">Global Action</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Community Hub -->
+    <section id="community" class="community-section-3d">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title-3d">Global Eco Community</h2>
+                <p class="section-subtitle">Join millions of users making a difference worldwide</p>
+            </div>
+
+            <div class="community-3d-grid">
+                <!-- Global Impact Map -->
+                <div class="community-card-3d large-card">
+                    <h3>Global Impact Map</h3>
+                    <div id="globalMap3d" class="global-map-3d"></div>
+                    <div class="map-stats">
+                        <div class="map-stat">
+                            <span class="value">195</span>
+                            <span class="label">Countries</span>
+                        </div>
+                        <div class="map-stat">
+                            <span class="value">2.5M</span>
+                            <span class="label">Tons Saved</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-time Leaderboard -->
+                <div class="community-card-3d">
+                    <h3>Top Eco Warriors</h3>
+                    <div class="leaderboard-3d">
+                        <div class="leader-item rank-1">
+                            <div class="rank-badge">
+                                <i class="fas fa-crown"></i>
+                                <span>1</span>
+                            </div>
+                            <div class="leader-info">
+                                <span class="name">EcoMaster_2025</span>
+                                <span class="country">🇳🇴 Norway</span>
+                            </div>
+                            <div class="leader-score">
+                                <span>2.8t</span>
+                                <small>saved</small>
+                            </div>
+                        </div>
+                        <div class="leader-item">
+                            <div class="rank-badge">
+                                <span>2</span>
+                            </div>
+                            <div class="leader-info">
+                                <span class="name">GreenGuru</span>
+                                <span class="country">🇩🇰 Denmark</span>
+                            </div>
+                            <div class="leader-score">
+                                <span>2.5t</span>
+                                <small>saved</small>
+                            </div>
+                        </div>
+                        <div class="leader-item">
+                            <div class="rank-badge">
+                                <span>3</span>
+                            </div>
+                            <div class="leader-info">
+                                <span class="name">ClimateHero</span>
+                                <span class="country">🇨🇦 Canada</span>
+                            </div>
+                            <div class="leader-score">
+                                <span>2.2t</span>
+                                <small>saved</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Challenges -->
+                <div class="community-card-3d">
+                    <h3>Live Challenges</h3>
+                    <div class="challenges-list">
+                        <div class="challenge-item active">
+                            <div class="challenge-icon">
+                                <i class="fas fa-bicycle"></i>
+                            </div>
+                            <div class="challenge-info">
+                                <h5>Bike Week Challenge</h5>
+                                <p>Cycle instead of driving for 7 days</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%"></div>
+                                </div>
+                                <span class="participants">12,543 participants</span>
+                            </div>
+                        </div>
+                        <div class="challenge-item">
+                            <div class="challenge-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="challenge-info">
+                                <h5>LED Switch Challenge</h5>
+                                <p>Replace all bulbs with LED lights</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                                <span class="participants">8,921 participants</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Footer -->
+    <footer class="footer-3d">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-3d">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <span>EcoWise 3.0</span>
+                </div>
+                <p class="footer-text">Revolutionizing sustainability through AI and immersive technology</p>
+                <div class="footer-stats">
+                    <div class="footer-stat">
+                        <span class="value">50K+</span>
+                        <span class="label">Users</span>
+                    </div>
+                    <div class="footer-stat">
+                        <span class="value">195</span>
+                        <span class="label">Countries</span>
+                    </div>
+                    <div class="footer-stat">
+                        <span class="value">2.5M</span>
+                        <span class="label">Tons Saved</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Single Script File - All functionality included -->
+    <script src="script.js"></script>
+</body>
+</html>
